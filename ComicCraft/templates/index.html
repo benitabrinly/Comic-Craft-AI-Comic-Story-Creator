@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ComicCraft</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <main class="wrap">
+    <h1 class="logo">ComicCraft</h1>
+    <p class="lead">Describe a story and get a comic you can download as a PDF.</p>
+
+    {% if error %}
+    <div class="error" role="alert"><strong>Could not make your comic.</strong> {{ error }}</div>
+    {% endif %}
+
+    <form id="comic-form" class="card" method="post" action="/generate">
+      <label>Story idea
+        <textarea name="prompt" rows="3" required minlength="3" maxlength="500"
+          placeholder="A brave fox exploring an enchanted forest">{{ form.prompt if form else '' }}</textarea>
+      </label>
+      <div class="row">
+        <label>Main character
+          <input name="character_name" maxlength="60" placeholder="Rusty" value="{{ form.character_name if form else '' }}">
+        </label>
+        <label>Setting
+          <input name="setting" maxlength="120" placeholder="Enchanted forest" value="{{ form.setting if form else '' }}">
+        </label>
+      </div>
+      <div class="row">
+        <label>Tone
+          <select name="tone">
+            {% for o in ['dramatic', 'funny', 'adventurous', 'mysterious', 'heartwarming'] %}
+            <option {{ 'selected' if form and form.tone == o }}>{{ o }}</option>
+            {% endfor %}
+          </select>
+        </label>
+        <label>Art style
+          <select name="art_style">
+            {% for o in ['comic book', 'anime', 'manga', 'cartoon', 'watercolor', 'realistic'] %}
+            <option {{ 'selected' if form and form.art_style == o }}>{{ o }}</option>
+            {% endfor %}
+          </select>
+        </label>
+        <label>Panels
+          <select name="num_panels">
+            {% for n in [3, 4, 5, 6] %}
+            <option value="{{ n }}" {{ 'selected' if (form and form.num_panels == n) or (not form and n == 5) }}>{{ n }}</option>
+            {% endfor %}
+          </select>
+        </label>
+      </div>
+      <button class="btn" type="submit">Create my comic</button>
+    </form>
+  </main>
+
+  <div id="loading" class="loading" hidden>
+    <div class="loading-box" role="status">
+      <div class="spinner"></div>
+      <p>Drawing your comic. This can take a few minutes, so keep this tab open.</p>
+    </div>
+  </div>
+  <script src="/static/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Your comic | ComicCraft</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <main class="wrap wide">
+    <h1 class="logo small">ComicCraft</h1>
+    <h2 class="story-title">{{ title }}</h2>
+
+    <div class="strip">
+      {% for p in panels %}
+      <figure class="panel">
+        <img src="{{ p.image_url }}" alt="Panel {{ p.panel_number }}: {{ p.title }}">
+        <figcaption>
+          <span class="tag">Panel {{ p.panel_number }}: {{ p.title }}</span>
+          <p>{{ p.text }}</p>
+        </figcaption>
+      </figure>
+      {% endfor %}
+    </div>
+
+    <div class="actions">
+      <a class="btn" href="/export-success?file={{ pdf_filename }}">Download PDF</a>
+      <a class="btn ghost" href="/">Make another comic</a>
+    </div>
+  </main>
+</body>
+</html>

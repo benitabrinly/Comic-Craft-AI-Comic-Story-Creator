@@ -1,0 +1,6 @@
+# Optional: only needed for local Stable Diffusion (best with an NVIDIA GPU)
+torch
+diffusers
+transformers
+accelerate
+safetensors
